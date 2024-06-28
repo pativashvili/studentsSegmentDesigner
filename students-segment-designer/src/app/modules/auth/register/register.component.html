@@ -1,0 +1,38 @@
+<div class="register">
+  <mat-card appearance="outlined" class="register__card">
+    <mat-card-header class="register__card__header">
+      <mat-card-title> Register </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content class="register__card__body">
+      <form class="register_card__body__form" [formGroup]="form">
+        <mat-form-field appearance="outline">
+          <mat-label for="userName">მომხმარებლის სახელი</mat-label>
+          <input matInput formControlName="userName" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label for="email">მეილი</mat-label>
+          <input matInput type="email" formControlName="email" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label for="password">პაროლი</mat-label>
+          <input matInput type="password" formControlName="password" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label for="entityNo">პირადი ნომერი</mat-label>
+          <input matInput type="number" formControlName="entityNo" />
+        </mat-form-field>
+      </form>
+    </mat-card-content>
+
+    <mat-card-actions [align]="'end'" class="register__card__footer">
+      <button [disabled]="form.invalid" (click)="onSubmit()" mat-button>
+        რეგისტრაცია
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+xs

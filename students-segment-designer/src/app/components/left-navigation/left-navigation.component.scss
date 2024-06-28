@@ -1,0 +1,27 @@
+.mat-mdc-card {
+  background-color: #3f51b5;
+  height: 100%;
+  color: #fff;
+}
+
+.left-menu-body {
+  margin-top: 20%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1rem;
+  .menu-item {
+    min-height: 3rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: center;
+    &:hover {
+      background-color: #00dddd;
+    }
+  }
+  .item-seelected {
+    background-color: red;
+  }
+}
