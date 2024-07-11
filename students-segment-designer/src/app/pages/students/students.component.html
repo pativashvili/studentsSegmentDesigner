@@ -1,1 +1,21 @@
-<p>students works!</p>
+<app-chose-students-table
+  *ngIf="queryParams['subject']"
+  [tableDataSource]="dataSource"
+  (selectedFilter)="filterChosenTable($event)">
+</app-chose-students-table>
+
+
+<mat-accordion *ngIf="!queryParams['subject']">
+  <mat-expansion-panel *ngFor="let item of dataSources">
+    <mat-expansion-panel-header>
+      <mat-panel-title> {{item.name}} </mat-panel-title>
+    </mat-expansion-panel-header>
+    <mat-panel-description>
+      <app-chose-students-table
+        (selectedFilter)="filterAllTables($event)"
+        [tableDataSource]="item?.['dataSource']">
+      </app-chose-students-table>
+    </mat-panel-description>
+  </mat-expansion-panel>
+
+</mat-accordion>

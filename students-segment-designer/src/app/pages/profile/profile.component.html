@@ -1,1 +1,64 @@
-<p>profile works!</p>
+<div class="profile">
+  <div class="profile__body">
+    <mat-card class="profile__body__card" *ngIf="(currentUser$ | async).lecturerInfo as lecturer">
+      <mat-card-content class="profile__body__card__content">
+        <div class="profile__body__card__content__img">
+          <img [src]="'/assets/images/profile-user.svg'" alt="Profile Picture" class="profile-picture">
+        </div>
+        <div class="profile__body__card__content__bio">
+          <div class="col">
+           <span>
+              სახელი
+           </span>
+            <span>
+              {{lecturer.name}}
+           </span>
+            <span>
+              გვარი:
+           </span>
+            <span>
+              {{lecturer.surname}}
+           </span>
+            <span>
+              ასაკი:
+           </span>
+            <span>
+              {{lecturer.age}}
+           </span>
+            <span>
+              პირადი ნომერი:
+           </span>
+            <span>
+              {{lecturer.personalNumber}}
+           </span>
+            <span>
+              დაბადების თარიღო
+           </span>
+            <span>
+              {{lecturer.dateOfBirth}}
+           </span>
+            <span>
+              ფაკულტეტი:
+           </span>
+            <span>
+              {{lecturer.faculty.name}}
+           </span>
+            <span>
+              განათლება
+           </span>
+            <span>
+              {{lecturer.type}}
+           </span>
+            <span>
+              მუშაობს
+           </span>
+            <span>
+              {{lecturer.startedWorking}} - დან
+           </span>
+          </div>
+        </div>
+
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

@@ -1,17 +1,36 @@
-<div class="layout">
-  <div class="layout__header">
-    <app-header></app-header>
-  </div>
-
-  <div class="layout__left-nav">
-    <app-left-navigation></app-left-navigation>
-  </div>
-
-  <div class="layout__body">
-    <router-outlet> </router-outlet>
-  </div>
-
-  <div class="layout__right-nav">
-    <app-right-navigation></app-right-navigation>
-  </div>
-</div>
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <button (click)="opened = !opened" mat-button>
+      <mat-icon>menu</mat-icon>
+    </button>
+    <div class="logo-container" [routerLink]="'/dashboard'"> LOGO</div>
+    <span class="example-spacer"></span>
+    <button mat-flat-button color="primary" [matMenuTriggerFor]="menu">{{currentUser?.userName}}</button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item [routerLink]="'/profile'">პროფილი</button>
+      <button mat-menu-item (click)="logOut()">გამოსვლა</button>
+    </mat-menu>
+  </mat-toolbar-row>
+</mat-toolbar>
+<mat-sidenav-container>
+  <mat-sidenav [opened]="opened">
+    <div class="sidenav-container">
+      <div> მენიუ</div>
+      @for (item of sideMenuConfig; track $index) {
+      <div
+        class="menu-item"
+        [routerLink]="item.url"
+        (click)="onClick($index)"
+        [ngClass]="{ 'item-selected': item.selected }"
+    >
+      {{ item.title }}
+      </div>
+      }
+    </div>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div class="main-content">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

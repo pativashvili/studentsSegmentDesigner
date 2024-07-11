@@ -1,0 +1,20 @@
+<div class="dialog">
+  <div class="dialog__header">
+    რეკომენდაციის წერილი:
+  </div>
+  <div>
+    <form class="example-form" [formGroup]="recommendationForm">
+      <mat-form-field class="example-full-width">
+        <mat-label>კომენტარი...</mat-label>
+        <textarea
+          formControlName="recommendation"
+          matInput
+          placeholder="მე ვუწევ რეკომენდაციას რადგან..."></textarea>
+      </mat-form-field>
+    </form>
+  </div>
+  <mat-dialog-actions>
+    <button mat-button mat-dialog-close>გამოსვლა</button>
+    <button mat-button (click)="sendRecommendation()" [color]="'primary'" [disabled]="!recommendationForm.valid">გაგზავნა</button>
+  </mat-dialog-actions>
+</div>

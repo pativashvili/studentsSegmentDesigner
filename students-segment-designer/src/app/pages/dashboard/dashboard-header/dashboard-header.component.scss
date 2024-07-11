@@ -1,0 +1,58 @@
+.content-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 1rem;
+  background-color: #e4e8ff;
+}
+
+.spinner-container {
+  position: relative;
+}
+
+.spinner-background {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  line-height: 80px;
+  text-align: center;
+  overflow: hidden;
+  border-color: rgba(103, 58, 183, 0.12);
+  border-radius: 50%;
+  border-style: solid;
+  border-width: 10px;
+}
+
+.flex-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.charts-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 5rem;
+  @media (max-width: 660px) {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+.failed-text, .success-text {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.failed-text {
+  color: red;
+}
+
+.success-text {
+  color: green;
+}
+
+.fire-icon {
+  scale: 1.5;
+}

@@ -1,0 +1,13 @@
+<app-generic-loading
+  *ngIf="loadingState !== 'LOADED'"
+  [state]="loadingState">
+</app-generic-loading>
+<div *ngIf="loadingState === 'LOADED'">
+  <div
+    class="body"
+    echarts
+    [options]="echartsOptions"
+    (chartClick)="getSelectedSegment($event)"
+  ></div>
+</div>
+

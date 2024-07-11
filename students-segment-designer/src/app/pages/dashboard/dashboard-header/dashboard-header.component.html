@@ -1,5 +1,31 @@
 <mat-card>
-  <mat-card-content>
-    <div>გილოცავთ, თქვენი საგნები გავლილი აქვს 1909 სტუდენტს</div>
+  <mat-card-content class="content-wrapper">
+    <h3>გილოცავთ, თქვენი საგნები გავლილი აქვს {{passedStudents + failedStudents}} სტუდენტს
+      <mat-icon class="fire-icon" color="warn">whatshot</mat-icon>
+    </h3>
+    <div class="charts-wrapper">
+      <div class="flex-container">
+        <span class="success-text"> ჩაბარებული: {{passedStudents}} </span>
+        <div class="spinner-container">
+          <div class="spinner-background">{{passedStudents | progressBarPipe : failedStudents}}%</div>
+          <mat-progress-spinner color="primary"
+                                [mode]="(passedStudents | progressBarPipe : failedStudents) ? 'determinate' : 'indeterminate'"
+                                [value]="passedStudents | progressBarPipe : failedStudents">
+          </mat-progress-spinner>
+        </div>
+      </div>
+
+      <div class="flex-container">
+        <span class="failed-text"> ჩაჭრილი: {{failedStudents}} </span>
+        <div class="spinner-container">
+          <div class="spinner-background">{{passedStudents | progressBarPipe : failedStudents : true}}%</div>
+          <mat-progress-spinner color="warn"
+                                [mode]="(passedStudents | progressBarPipe : failedStudents : true) ? 'determinate' :'indeterminate' "
+                                [value]="passedStudents | progressBarPipe : failedStudents : true">
+          </mat-progress-spinner>
+        </div>
+      </div>
+
+    </div>
   </mat-card-content>
 </mat-card>

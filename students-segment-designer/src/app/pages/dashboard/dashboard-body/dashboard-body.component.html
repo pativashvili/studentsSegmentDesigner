@@ -1,4 +1,16 @@
 <div class="cards-wrapper">
-  <mat-card> 1 </mat-card>
-  <mat-card> 2 </mat-card>
+  <mat-card>
+    <mat-card-content class="dashboard-main-content">
+      <mat-card class="left-side">
+        <app-shared-filters
+          (chosenDate)="getSelectedDate($event)">
+
+        </app-shared-filters>
+        <app-subjects-segmentation
+          (selectedSubject)="getSelectedSubject($event)">
+
+        </app-subjects-segmentation>
+      </mat-card>
+    </mat-card-content>
+  </mat-card>
 </div>

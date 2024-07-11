@@ -1,0 +1,33 @@
+<app-generic-loading
+  *ngIf="loadingState !== 'LOADED'"
+  [state]="loadingState">
+</app-generic-loading>
+
+<ng-container *ngIf="loadingState === 'LOADED'">
+  <div class="wrapper">
+    <div class="left-side-wrapper">
+      <button mat-flat-button color="primary" [matMenuTriggerFor]="yearMenu">აირჩიეთ წელი</button>
+      <mat-menu #yearMenu="matMenu">
+        <ng-container *ngFor="let year of objectKeys(yearsConfig)">
+          <button mat-menu-item (click)="selectYear(+year)">
+            {{ year }}
+          </button>
+        </ng-container>
+      </mat-menu>
+      <div *ngIf="selectedYear">
+        <!-- Semester Selection Menu -->
+        <button mat-flat-button color="primary" [matMenuTriggerFor]="semesterMenu">აირჩიეთ სემესტრი</button>
+        <mat-menu #semesterMenu="matMenu">
+          <button mat-menu-item (click)="selectSemester('autumn')">შემოდგომა</button>
+          <button mat-menu-item (click)="selectSemester('spring')">გაზაფხული</button>
+        </mat-menu>
+      </div>
+    </div>
+
+    <div *ngIf="selectedSemester">
+      <!-- Display Selected Year and Semester -->
+      <p>წელი: {{ selectedYear }}</p>
+      <p>სემესტრი: {{ selectedSemester === 'spring' ? 'გაზაფხული' : 'შემოდგომა' }}</p>
+    </div>
+  </div>
+</ng-container>

@@ -1,5 +1,8 @@
 <div class="dashboard">
-  <app-dashboard-header></app-dashboard-header>
+  <app-dashboard-header
+    [failedStudents]="failedStudents"
+    [passedStudents]="passedStudents"
+  ></app-dashboard-header>
   <app-dashboard-body></app-dashboard-body>
   <app-dashboard-footer></app-dashboard-footer>
 </div>

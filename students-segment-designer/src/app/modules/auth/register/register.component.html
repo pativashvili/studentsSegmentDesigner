@@ -1,30 +1,40 @@
 <div class="register">
   <mat-card appearance="outlined" class="register__card">
     <mat-card-header class="register__card__header">
-      <mat-card-title> Register </mat-card-title>
+      <mat-card-title> რეგისტრაცია</mat-card-title>
     </mat-card-header>
 
     <mat-card-content class="register__card__body">
-      <form class="register_card__body__form" [formGroup]="form">
+      <form class="register__card__body__form" [formGroup]="form">
         <mat-form-field appearance="outline">
           <mat-label for="userName">მომხმარებლის სახელი</mat-label>
-          <input matInput formControlName="userName" />
+          <input matInput formControlName="userName"/>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label for="email">მეილი</mat-label>
-          <input matInput type="email" formControlName="email" />
+          <input matInput type="email" formControlName="email"/>
+          <mat-hint align="start"><strong> უნდა შეიცავდეს სიმბოლოს &#64; </strong></mat-hint>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label for="password">პაროლი</mat-label>
-          <input matInput type="password" formControlName="password" />
+          <input matInput type="password" formControlName="password"/>
+          <mat-hint align="start"><strong> პაროლი უნდა შეიცავდეს მინიმუმ 6 სიმბოლოს </strong></mat-hint>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label for="password">გაიმეორეთ პაროლი</mat-label>
+          <input matInput type="password" formControlName="repeatPassword"/>
+          <mat-hint align="start"><strong> აუცილებლად უნდა დაემთხვეს მითითებულ პაროლს </strong></mat-hint>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label for="entityNo">პირადი ნომერი</mat-label>
-          <input matInput type="number" formControlName="entityNo" />
+          <input matInput formControlName="entityNo"/>
+          <mat-hint align="start"><strong> პირადი ნომერი უნდა შეიცავდეს 11 რიცხვს </strong></mat-hint>
         </mat-form-field>
+
       </form>
     </mat-card-content>
 
@@ -35,4 +45,3 @@
     </mat-card-actions>
   </mat-card>
 </div>
-xs

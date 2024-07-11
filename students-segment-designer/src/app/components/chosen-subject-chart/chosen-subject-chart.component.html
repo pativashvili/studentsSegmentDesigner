@@ -1,0 +1,12 @@
+<mat-card class="card-wrapper">
+  <div class="header">
+    {{headerName}}
+  </div>
+  <div *ngIf="chartData?.length"
+       class="body"
+       echarts
+       [options]="chartOptions"
+       (chartClick)="getSelectedSegment($event)"
+  ></div>
+</mat-card>
+

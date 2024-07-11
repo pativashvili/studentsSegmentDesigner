@@ -1,1 +1,47 @@
-<p>subjects works!</p>
+<app-generic-loading
+  *ngIf="loadingState !=='LOADED'"
+  [state]="loadingState"
+>
+</app-generic-loading>
+<ng-container *ngIf="loadingState === 'LOADED'">
+  <mat-card *ngIf="queryParams['subject'] as subject">
+    <div class="chosen-subject-wrapper">
+      <app-chosen-subject-chart
+        [headerName]="subject"
+        [chartData]="chartData"
+        [selectedSubject]="queryParams['subject']"
+      >
+      </app-chosen-subject-chart>
+    </div>
+  </mat-card>
+
+  <div *ngIf="!queryParams['subject']">
+    <div class="chosen-subject-wrapper">
+      <mat-accordion>
+        <mat-expansion-panel *ngFor="let chartData of chartDataArray">
+          <mat-expansion-panel-header>
+            <mat-panel-title> {{chartData.name}} </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-panel-description  class="flex-item">
+            <app-chosen-subject-chart
+              [headerName]="chartData.name"
+              [chartData]="chartData.data"
+              [selectedSubject]="queryParams['subject']"
+            >
+            </app-chosen-subject-chart>
+          </mat-panel-description>
+        </mat-expansion-panel>
+        <!--      <div *ngFor="let chartData of chartDataArray" class="flex-item">-->
+        <!--        <app-chosen-subject-chart-->
+        <!--          [headerName]="chartData.name"-->
+        <!--          [chartData]="chartData.data"-->
+        <!--          [selectedSubject]="queryParams['subject']"-->
+        <!--        >-->
+        <!--        </app-chosen-subject-chart>-->
+        <!--      </div>-->
+        <!--    </div>-->
+        <!--  </div>-->
+      </mat-accordion>
+    </div>
+  </div>
+</ng-container>
