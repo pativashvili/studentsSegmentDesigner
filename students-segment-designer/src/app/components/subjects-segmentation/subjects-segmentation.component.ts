@@ -7,6 +7,7 @@ import {LoadingStatesEnum} from "../../models/loading-states.enum";
 import {GenericLoadingComponent} from "../../shared/components/generic-loading/generic-loading.component";
 import {NgxEchartsModule} from "ngx-echarts";
 import {Subject, takeUntil} from "rxjs";
+import {CoursesControllerService} from "../../services/courses-controller.service";
 
 @Component({
   selector: 'app-subjects-segmentation',
@@ -17,18 +18,22 @@ import {Subject, takeUntil} from "rxjs";
 })
 export class SubjectsSegmentationComponent implements OnInit, OnDestroy {
   @Output() selectedSubject: EventEmitter<string> = new EventEmitter();
+
+  public loadedCourses;
   public loadingState: LoadingStatesEnum;
   public echartsOptions;
   public courses: {
     name: string,
     value: number
   }[];
+
   private unsubscribe$: Subject<void> = new Subject<void>()
 
-  constructor(private store: Store) {
+  constructor(private store: Store, private coursesControllerService: CoursesControllerService) {
   }
 
   ngOnInit() {
+    this.getCourses();
     this.listenToEnrollmentsByDate();
   }
 
@@ -37,11 +42,12 @@ export class SubjectsSegmentationComponent implements OnInit, OnDestroy {
     this.unsubscribe$.complete();
   }
 
-  public getSelectedSegment(event) {
-    this.selectedSubject.emit(event.name)
+  public getSelectedSegment(event): void {
+    const selectedSegment = this.loadedCourses?.find((el) => el.title === event.name)?.id
+    this.selectedSubject.emit(selectedSegment)
   }
 
-  private listenToEnrollmentsByDate() {
+  private listenToEnrollmentsByDate(): void {
     this.store.select(getFilteredByDateEnrollmentInfo).pipe(takeUntil(this.unsubscribe$)).subscribe((data) => {
       this.courses = [];
       this.loadingState = data.loadingState;
@@ -57,10 +63,17 @@ export class SubjectsSegmentationComponent implements OnInit, OnDestroy {
     })
   }
 
-  private generateChart() {
+  private getCourses(): void {
+    this.coursesControllerService.fetchCoursesByLecturerId(Number(localStorage.getItem('lecturer')))
+      .subscribe((data) => {
+        this.loadedCourses = data;
+      })
+  }
+
+  private generateChart(): void {
     this.echartsOptions = {
       title: {
-        text: this.courses.reduce((sum, current) => sum += current.value, 0),
+        text: this.courses.reduce((acc, course) => acc + course.value, 0),
         left: 'center',
         top: 'center',
       },

@@ -26,6 +26,39 @@
         </div>
       </div>
 
+      <div class="flex-container">
+        <span [ngClass]="averageGrade < 51 ? 'failed-text' : 'success-text'"> საშუალო ქულა: {{averageGrade}} </span>
+        <div class="spinner-container">
+          <div class="spinner-background">{{averageGrade}}</div>
+          <mat-progress-spinner [color]=" averageGrade > 51? 'primary' : 'warn'"
+                                [mode]="averageGrade ? 'determinate' : 'indeterminate'"
+                                [value]="averageGrade">
+          </mat-progress-spinner>
+        </div>
+      </div>
+
+      <div class="flex-container">
+        <span [ngClass]="maxGrade < 51 ? 'failed-text' : 'success-text'"> მაქსიმუმი ქულა: {{maxGrade}} </span>
+        <div class="spinner-container">
+          <div class="spinner-background">{{maxGrade}}</div>
+          <mat-progress-spinner [color]=" maxGrade > 51? 'primary' : 'warn'"
+                                [mode]="maxGrade ? 'determinate' : 'indeterminate'"
+                                [value]="maxGrade">
+          </mat-progress-spinner>
+        </div>
+      </div>
+
+      <div class="flex-container">
+        <span [ngClass]="minGrade < 51 ? 'failed-text' : 'success-text'"> მინიმუმი ქულა: {{minGrade}} </span>
+        <div class="spinner-container">
+          <div class="spinner-background">{{minGrade}}</div>
+          <mat-progress-spinner [color]=" minGrade > 51? 'primary' : 'warn'"
+                                [mode]="minGrade ? 'determinate' : 'indeterminate'"
+                                [value]="minGrade">
+          </mat-progress-spinner>
+        </div>
+      </div>
+
     </div>
   </mat-card-content>
 </mat-card>

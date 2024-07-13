@@ -1,62 +1,48 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Store} from "@ngrx/store";
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {NgxEchartsModule} from "ngx-echarts";
 import {CommonModule} from "@angular/common";
 import {MatCardModule} from "@angular/material/card";
-import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-chosen-subject-chart',
   standalone: true,
-  imports: [NgxEchartsModule, CommonModule, MatCardModule],
+  imports: [
+    NgxEchartsModule,
+    CommonModule,
+    MatCardModule
+  ],
   templateUrl: './chosen-subject-chart.component.html',
   styleUrl: './chosen-subject-chart.component.scss'
 })
 export class ChosenSubjectChartComponent implements OnInit {
   @Input() selectedSubject: string;
   @Input() headerName: any;
-  public chartOptions;
+  @Input() dateRange: string;
   @Input() public chartData = [];
-  public startDate: string;
-  public endDate: string;
 
-  constructor(private store: Store, private route: ActivatedRoute, private router: Router) {
+  @Output() public onSelectedSegment: EventEmitter<{ grade: string }> = new EventEmitter<{ grade: string }>();
+
+  public chartOptions;
+
+  constructor() {
   }
 
   ngOnInit() {
-    this.startDate = this.route.snapshot.queryParamMap.get('startDate');
-    this.endDate = this.route.snapshot.queryParamMap.get('endDate');
     if (this.chartData?.length) {
       this.generateChart()
     }
   }
 
-  ngOnChanges(changes) {
+  ngOnChanges(changes): void {
     if (changes['chartData']) {
       this.chartData = changes['chartData'].currentValue;
       this.generateChart()
     }
   }
 
-  public getSelectedSegment($event) {
+  public getSelectedSegment($event): void {
     const studentsGradeLetter = $event.data.name
-    const selectedSubject = this.headerName;
-    let queryParams;
-
-    if (this.startDate && this.endDate) {
-      queryParams = {
-        subject: selectedSubject,
-        grade: studentsGradeLetter,
-        startDate: this.startDate,
-        endDate: this.endDate
-      }
-    } else {
-      queryParams = {
-        subject: selectedSubject,
-        grade: studentsGradeLetter,
-      }
-    }
-    this.router.navigate(['/students'], {queryParams}).then()
+    this.onSelectedSegment.emit(studentsGradeLetter)
   }
 
 

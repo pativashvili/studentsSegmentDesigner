@@ -43,7 +43,7 @@ export class StudentProfileComponent implements OnInit, OnDestroy {
   openEndorseModal(): void {
     this.matDialog.open(EndorseDialogComponent, {
       minWidth: '60%',
-      minHeight:'30%',
+      minHeight: '30%',
       data: {}
     })
   }
@@ -53,12 +53,11 @@ export class StudentProfileComponent implements OnInit, OnDestroy {
     this.unsubscribe$.complete();
   }
 
-  private listenToStudentState() {
+  private listenToStudentState(): void {
     this.store.select(getStudentInfo).pipe(takeUntil(this.unsubscribe$)).subscribe((data) => {
       this.loadingState = data.loadingState;
       if (data.studentInfo) {
         this.student = data.studentInfo
-        console.log(data)
       }
     })
   }

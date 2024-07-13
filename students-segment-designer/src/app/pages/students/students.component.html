@@ -1,21 +1,25 @@
-<app-chose-students-table
-  *ngIf="queryParams['subject']"
-  [tableDataSource]="dataSource"
-  (selectedFilter)="filterChosenTable($event)">
-</app-chose-students-table>
-
-
-<mat-accordion *ngIf="!queryParams['subject']">
-  <mat-expansion-panel *ngFor="let item of dataSources">
-    <mat-expansion-panel-header>
-      <mat-panel-title> {{item.name}} </mat-panel-title>
-    </mat-expansion-panel-header>
-    <mat-panel-description>
-      <app-chose-students-table
-        (selectedFilter)="filterAllTables($event)"
-        [tableDataSource]="item?.['dataSource']">
-      </app-chose-students-table>
-    </mat-panel-description>
-  </mat-expansion-panel>
-
-</mat-accordion>
+<div>
+  <app-shared-grade-filters
+    (onFilterSelected)="filterChosenTable($event)"
+  ></app-shared-grade-filters>
+  <app-generic-loading
+    *ngIf="loadingState !== 'LOADED'"
+    [state]="loadingState"
+  >
+  </app-generic-loading>
+  <ng-container *ngIf="loadingState === 'LOADED'">
+    <mat-accordion class="custom-accordion">
+      <mat-expansion-panel [expanded]="i==0" *ngFor="let item of dataSources; let i = index">
+        <mat-expansion-panel-header>
+          {{item.name}}
+        </mat-expansion-panel-header>
+        <mat-panel-description>
+          <app-chose-students-table
+            (selectedFilter)="filterChosenTable($event)"
+            [tableDataSource]="item?.['dataSource']">
+          </app-chose-students-table>
+        </mat-panel-description>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </ng-container>
+</div>

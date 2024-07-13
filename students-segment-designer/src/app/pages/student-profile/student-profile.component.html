@@ -1,6 +1,5 @@
-<app-generic-loading *ngIf="loadingState !== 'LOADED'"
-                     [state]="loadingState">
-</app-generic-loading>
+<app-generic-loading *ngIf="loadingState !== 'LOADED'" [state]="loadingState"></app-generic-loading>
+
 <div class="flex-wrapper" *ngIf="loadingState === 'LOADED'">
   <mat-card class="profile">
     <div class="img_and_name">
@@ -8,19 +7,41 @@
         <img [src]="'/assets/images/profile-user.svg'" alt="Profile Picture" class="profile-picture">
       </div>
       <div class="info-text">
-        {{student?.name}} {{student?.surname}}
+        <h2>{{student?.name}} {{student?.surname}}</h2>
+      </div>
+    </div>
+    <div class="profile-stats">
+      <div class="stat-item">
+        <div class="wrap">
+          <mat-icon>star</mat-icon>
+          <span>რეკომენდაციები</span>
+        </div>
+        <span class="stat-label">{{student?.endorsementCount}}</span>
+      </div>
+      <div class="stat-item">
+        <div>
+          <mat-icon>school</mat-icon>
+          {{student?.faculty?.name}} </div>
+      </div>
+      <div class="stat-item">
+        <div>
+          <mat-icon>emoji_events</mat-icon>
+          <span>გრანტი</span>
+        </div>
+        <span class="stat-label">{{student?.stateFunding}}%</span>
       </div>
     </div>
   </mat-card>
+
   <div class="student-profile-wrapper">
     <div class="left-side-wrapper">
-      <mat-card class="example-button-container">
+      <mat-card class="endorse-card">
         <button (click)="openEndorseModal()" mat-button class="endorse-button">
           <mat-icon>favorite</mat-icon>
           რეკომენდაციის გაწევა
         </button>
       </mat-card>
-      <mat-card class="profile">
+      <mat-card class="contact-info-card">
         <mat-card-title>
           <h3>საკონტაქტო ინფორმაცია</h3>
         </mat-card-title>
@@ -29,79 +50,194 @@
             <mat-icon>contact_phone</mat-icon>
             მობილურის ნომერი:
           </div>
-          <span class="bolder">{{student?.phoneNumber}}</span>
+          <span class="bolder">{{student?.phoneNumber}} </span>
         </div>
         <div class="flex-container">
           <div class="just-flex">
             <mat-icon>contact_mail</mat-icon>
             უნივერსიტეტის მეილი:
           </div>
-          <span class="bolder">{{student?.univeristyMail}}</span>
+          <span class="bolder">{{student?.univeristyMail}} </span>
         </div>
       </mat-card>
     </div>
 
     <div class="right-side-wrapper">
-      <mat-card class="university_info">
+      <mat-card class="university-info">
         <mat-card-title>
           <h3>აკადემიური ინფორმაცია</h3>
         </mat-card-title>
         <div class="flex-container">
           <div class="just-flex">
+            <mat-icon>local_library</mat-icon>
             ფაკულტეტი:
           </div>
-          <span class="bolder">{{student?.faculty?.name}}</span>
+          <span class="bolder">{{student?.faculty?.name}} </span>
         </div>
         <div class="flex-container">
           <div class="just-flex">
+            <mat-icon>book</mat-icon>
             სპეციალობა:
           </div>
-          <span class="bolder">{{student?.specialty?.name}}</span>
+          <span class="bolder">{{student?.specialty?.name}} </span>
         </div>
         <div class="flex-container">
           <div class="just-flex">
+            <mat-icon>emoji_events</mat-icon>
             გრანტი:
           </div>
-          <span class="bolder">{{student?.stateFunding}}%</span>
+          <span class="bolder">{{student?.stateFunding}}% </span>
         </div>
         <div class="flex-container">
           <div class="just-flex">
+            <mat-icon>recommend</mat-icon>
             რეკომენდაციები:
           </div>
-          <span class="bolder">{{student?.endorsementCount}}</span>
+          <span class="bolder">{{student?.endorsementCount}} </span>
         </div>
       </mat-card>
 
-      <mat-card class="university_info">
+      <mat-card class="personal-info">
         <mat-card-title>
           <h3>პირადი ინფორმაცია</h3>
         </mat-card-title>
         <div class="flex-container">
           <div class="just-flex">
-            პირადი ნომერი
+            <mat-icon>badge</mat-icon>
+            პირადი ნომერი:
           </div>
-          <span class="bolder">{{student?.personalNumber}}</span>
+          <span class="bolder">{{student?.personalNumber}} </span>
         </div>
         <div class="flex-container">
           <div class="just-flex">
+            <mat-icon>cake</mat-icon>
             დაბადების თარიღი:
           </div>
-          <span class="bolder">{{student?.dateOfBirth | date}}</span>
+          <span class="bolder">{{student?.dateOfBirth | date}} </span>
         </div>
         <div class="flex-container">
           <div class="just-flex">
+            <mat-icon>work</mat-icon>
             დასაქმებული:
           </div>
-          <span class="bolder">{{student?.isEmployed ? 'კი' : 'არა'}}</span>
+          <span class="bolder">{{student?.isEmployed ? 'კი' : 'არა'}} </span>
         </div>
         <div class="flex-container">
           <div class="just-flex">
+            <mat-icon>transgender</mat-icon>
             სქესი:
           </div>
-          <span class="bolder">{{student?.gender ? 'მამრობითი' : 'მდედრობითი'}}</span>
+          <span class="bolder">{{student?.gender ? 'მამრობითი' : 'მდედრობითი'}} </span>
         </div>
       </mat-card>
     </div>
   </div>
 </div>
 
+
+<!--<app-generic-loading *ngIf="loadingState !== 'LOADED'"-->
+<!--                     [state]="loadingState">-->
+<!--</app-generic-loading>-->
+<!--<div class="flex-wrapper" *ngIf="loadingState === 'LOADED'">-->
+<!--  <mat-card class="profile">-->
+<!--    <div class="img_and_name">-->
+<!--      <div class="profile__body__card__content__img">-->
+<!--        <img [src]="'/assets/images/profile-user.svg'" alt="Profile Picture" class="profile-picture">-->
+<!--      </div>-->
+<!--      <div class="info-text">-->
+<!--        {{student?.name}} {{student?.surname}}-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </mat-card>-->
+<!--  <div class="student-profile-wrapper">-->
+<!--    <div class="left-side-wrapper">-->
+<!--      <mat-card class="example-button-container">-->
+<!--        <button (click)="openEndorseModal()" mat-button class="endorse-button">-->
+<!--          <mat-icon>favorite</mat-icon>-->
+<!--          რეკომენდაციის გაწევა-->
+<!--        </button>-->
+<!--      </mat-card>-->
+<!--      <mat-card class="profile contact-info-card">-->
+<!--        <mat-card-title>-->
+<!--          <h3>საკონტაქტო ინფორმაცია</h3>-->
+<!--        </mat-card-title>-->
+<!--        <div class="flex-container">-->
+<!--          <div class="just-flex">-->
+<!--            <mat-icon>contact_phone</mat-icon>-->
+<!--            მობილურის ნომერი:-->
+<!--          </div>-->
+<!--          <span class="bolder">{{student?.phoneNumber}}</span>-->
+<!--        </div>-->
+<!--        <div class="flex-container">-->
+<!--          <div class="just-flex">-->
+<!--            <mat-icon>contact_mail</mat-icon>-->
+<!--            უნივერსიტეტის მეილი:-->
+<!--          </div>-->
+<!--          <span class="bolder">{{student?.univeristyMail}}</span>-->
+<!--        </div>-->
+<!--      </mat-card>-->
+<!--    </div>-->
+
+<!--    <div class="right-side-wrapper">-->
+<!--      <mat-card class="university_info">-->
+<!--        <mat-card-title>-->
+<!--          <h3>აკადემიური ინფორმაცია</h3>-->
+<!--        </mat-card-title>-->
+<!--        <div class="flex-container">-->
+<!--          <div class="just-flex">-->
+<!--            ფაკულტეტი:-->
+<!--          </div>-->
+<!--          <span class="bolder">{{student?.faculty?.name}}</span>-->
+<!--        </div>-->
+<!--        <div class="flex-container">-->
+<!--          <div class="just-flex">-->
+<!--            სპეციალობა:-->
+<!--          </div>-->
+<!--          <span class="bolder">{{student?.specialty?.name}}</span>-->
+<!--        </div>-->
+<!--        <div class="flex-container">-->
+<!--          <div class="just-flex">-->
+<!--            გრანტი:-->
+<!--          </div>-->
+<!--          <span class="bolder">{{student?.stateFunding}}%</span>-->
+<!--        </div>-->
+<!--        <div class="flex-container">-->
+<!--          <div class="just-flex">-->
+<!--            რეკომენდაციები:-->
+<!--          </div>-->
+<!--          <span class="bolder">{{student?.endorsementCount}}</span>-->
+<!--        </div>-->
+<!--      </mat-card>-->
+
+<!--      <mat-card class="university_info">-->
+<!--        <mat-card-title>-->
+<!--          <h3>პირადი ინფორმაცია</h3>-->
+<!--        </mat-card-title>-->
+<!--        <div class="flex-container">-->
+<!--          <div class="just-flex">-->
+<!--            პირადი ნომერი:-->
+<!--          </div>-->
+<!--          <span class="bolder">{{student?.personalNumber}}</span>-->
+<!--        </div>-->
+<!--        <div class="flex-container">-->
+<!--          <div class="just-flex">-->
+<!--            დაბადების თარიღი:-->
+<!--          </div>-->
+<!--          <span class="bolder">{{student?.dateOfBirth | date}}</span>-->
+<!--        </div>-->
+<!--        <div class="flex-container">-->
+<!--          <div class="just-flex">-->
+<!--            დასაქმებული:-->
+<!--          </div>-->
+<!--          <span class="bolder">{{student?.isEmployed ? 'კი' : 'არა'}}</span>-->
+<!--        </div>-->
+<!--        <div class="flex-container">-->
+<!--          <div class="just-flex">-->
+<!--            სქესი:-->
+<!--          </div>-->
+<!--          <span class="bolder">{{student?.gender ? 'მამრობითი' : 'მდედრობითი'}}</span>-->
+<!--        </div>-->
+<!--      </mat-card>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->

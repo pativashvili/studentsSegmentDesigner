@@ -6,13 +6,13 @@ import {environment} from "../../../enviroment/enviroment"
 @Injectable({
   providedIn: 'root',
 })
-export class CoursesControllerService{
+export class CoursesControllerService {
   private readonly url: string = "/api/Course/GetCoursesByLecturerId"
 
   constructor(private http: HttpClient) {
   }
 
-  fetchCoursesByLecturerId(id: number): Observable<Object> {
+  fetchCoursesByLecturerId(id: number): Observable<any> {
     const url = environment.lecturerInfoApi + this.url + `?id=${id}`
     return this.http.get(url);
   }

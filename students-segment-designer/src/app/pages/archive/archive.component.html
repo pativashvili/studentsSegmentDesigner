@@ -1,1 +1,12 @@
-<p>archive works!</p>
+<app-generic-loading *ngIf="loadingState !== 'LOADED'"
+                     [state]="loadingState">
+</app-generic-loading>
+<div class="flex-wrapper" *ngIf="loadingState === 'LOADED'">
+  <div class="header"> დიაგრამის მონაცემები მოიცავს მთლიან არქივს</div>
+  <ng-container *ngFor="let item of transformedData">
+    <app-history-chart
+      [history]="item"
+    >
+    </app-history-chart>
+  </ng-container>
+</div>

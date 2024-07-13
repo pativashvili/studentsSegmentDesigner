@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Router, RouterModule, RouterOutlet} from '@angular/router';
 import {MatGridListModule} from '@angular/material/grid-list';
-import {RightNavigationComponent} from '../right-navigation/right-navigation.component';
 import {CommonModule, NgTemplateOutlet} from '@angular/common';
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatButtonModule} from "@angular/material/button";
@@ -18,7 +17,6 @@ import {MatMenuModule} from "@angular/material/menu";
   imports: [
     RouterOutlet,
     MatGridListModule,
-    RightNavigationComponent,
     NgTemplateOutlet,
     MatToolbarModule,
     MatButtonModule,
@@ -70,14 +68,14 @@ export class LayoutComponent implements OnInit {
     });
   }
 
-  onClick(itemIndex: number) {
+  onClick(itemIndex: number): void {
     this.sideMenuConfig.forEach((el, index) => {
       el.selected = false;
     });
     this.sideMenuConfig[itemIndex].selected = true;
   }
 
-  logOut() {
+  logOut(): void {
     this.authService
       .logOut()
       .subscribe((data) => this.router.navigateByUrl('/login'));

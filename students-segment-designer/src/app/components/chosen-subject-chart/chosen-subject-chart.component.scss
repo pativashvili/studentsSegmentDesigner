@@ -3,9 +3,19 @@
   height: 100%;
 }
 
+.date {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .body {
-  height: 600px;
-  width: 80vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 600px;
+  min-width: 700px;
+  width: 100%;
 }
 
 .header {

@@ -14,12 +14,11 @@ import {EnrollmentResponseModel} from "../../services/models/enrollment-response
 
 @Injectable()
 export class EnrollmentEffects {
-  _loadEnrollments$ = createEffect(() =>
+  _loadEnrollments$ = createEffect((): any =>
     this.action$.pipe(
       ofType(loadEnrollmentById),
       exhaustMap((params) => {
         const lecturerId = Number(localStorage.getItem('lecturer'))
-        //params?.maxGrade, params?.minGrade
         return this.service.fetchEndorsementsByLecturerId(lecturerId, null, null, params?.minGrade, params?.maxGrade)
           .pipe(
             map((response: EnrollmentResponseModel) => {
@@ -34,12 +33,18 @@ export class EnrollmentEffects {
     )
   )
 
-  _loadEnrollmentsByDate$ = createEffect(() =>
+  _loadEnrollmentsByDate$ = createEffect((): any =>
     this.action$.pipe(
       ofType(filterEnrollmentByDate),
-      exhaustMap((params) => {
+      exhaustMap((params: {
+        startDate?: string,
+        endDate?: string,
+        minGrade?: number,
+        maxGrade?: number,
+        courseId?: number
+      }) => {
         const lecturerId = Number(localStorage.getItem('lecturer'))
-        return this.service.fetchEndorsementsByLecturerId(lecturerId, params.startDate, params.endDate, params?.minGrade, params?.maxGrade)
+        return this.service.fetchEndorsementsByLecturerId(lecturerId, params?.['startDate'], params?.['endDate'], params?.['minGrade'], params?.['maxGrade'], params?.['courseId'])
           .pipe(
             map((response: EnrollmentResponseModel) => {
                 return filterEnrollmentByDateSuccess({response: response})

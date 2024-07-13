@@ -1,26 +1,14 @@
-<div class="chosen-students-table-wrapper">
-
-  <mat-card class="filters-wrapper">
-    <div>
-      ფილტრები:
-    </div>
-    <mat-chip-set>
-      <ng-container *ngFor="let item of filtersList">
-        <mat-chip (click)="toggleChip(item)" [ngClass]="{'selected': item.selected}"
-                  class="example-box">{{item.name}}</mat-chip>
-        <!--      <mat-chip (click)="toggleChip(item)" [selectable]="item.selected" class="example-box">{{item.name}}</mat-chip>-->
-      </ng-container>
-    </mat-chip-set>
-  </mat-card>
+<div>
   <div class="table-wrapper">
-  <table mat-table #studentsTable [dataSource]="dataSource" class="demo-table">
-    <ng-container *ngFor="let column of displayedColumns" [matColumnDef]='column' [sticky]="column === 'id'">
-      <mat-header-cell *matHeaderCellDef> {{column | transformColumnNamesPipe}} </mat-header-cell>
-      <mat-cell (click)="getStudent(element)" *matCellDef="let element"> {{element?.[column] |transformRowNamesPipe }} </mat-cell>
-    </ng-container>
-    <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-  </table>
+    <table mat-table #studentsTable [dataSource]="dataSource" class="demo-table">
+      <ng-container *ngFor="let column of displayedColumns" [matColumnDef]='column' [sticky]="column === 'id'">
+        <mat-header-cell *matHeaderCellDef> {{column | transformColumnNamesPipe}} </mat-header-cell>
+        <mat-cell (click)="getStudent(element)"
+                  *matCellDef="let element"> {{element?.[column] |transformRowNamesPipe }} </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </table>
   </div>
 
   <mat-paginator #studentsPaginator="matPaginator"
@@ -29,5 +17,4 @@
                  showFirstLastButtons
                  aria-label="მონიშნე გვერდი">
   </mat-paginator>
-
 </div>

@@ -1,0 +1,32 @@
+<div class="filters-form">
+  <mat-form-field>
+    <mat-label>აირჩიეთ პერიოდი</mat-label>
+    <mat-date-range-input
+      [max]="maxDate"
+      [formGroup]="range"
+      [rangePicker]="picker"
+    >
+      <input matStartDate [formControl]="startControl" placeholder="საწყისი დრო">
+      <input matEndDate [formControl]="endControl" placeholder="საბოლოო დრო">
+    </mat-date-range-input>
+    <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker></mat-date-range-picker>
+
+    @if (range.controls.start.hasError('matStartDateInvalid')) {
+    <mat-error>არასწორი საწყისი თარიღი</mat-error>
+    }
+    @if (range.controls.end.hasError('matEndDateInvalid')) {
+    <mat-error>არასწორი საბოლოო თარიღი</mat-error>
+    }
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>აირჩიეთ საგანი</mat-label>
+    <mat-select [formControl]="coursesControl">
+      @for (course of courses; track course) {
+      <mat-option [value]="course">{{course.title}}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+</div>

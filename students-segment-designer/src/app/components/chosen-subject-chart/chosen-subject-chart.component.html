@@ -2,6 +2,9 @@
   <div class="header">
     {{headerName}}
   </div>
+  <div class='date' *ngIf="dateRange">
+    {{dateRange}}
+  </div>
   <div *ngIf="chartData?.length"
        class="body"
        echarts

@@ -12,6 +12,6 @@ export const FILTER_ENROLLMENT_BY_DATE = '[enrollment] filter enrollment by date
 export const FILTER_ENROLLMENT_BY_DATE_SUCCESS = '[enrollment] filter enrollment by date success'
 export const FILTER_ENROLLMENT_BY_DATE_FAILED = '[enrollment] filter enrollment by date failed'
 
-export const filterEnrollmentByDate = createAction(FILTER_ENROLLMENT_BY_DATE, props<{ startDate: string, endDate: string, minGrade?: number, maxGrade?: number }>());
+export const filterEnrollmentByDate = createAction(FILTER_ENROLLMENT_BY_DATE, props<{ startDate?: string, endDate?: string, minGrade?: number, maxGrade?: number, courseId?: number}>());
 export const filterEnrollmentByDateSuccess = createAction(FILTER_ENROLLMENT_BY_DATE_SUCCESS, props<{ response: any }>());
 export const filterEnrollmentByDateFailed = createAction(FILTER_ENROLLMENT_BY_DATE_FAILED);

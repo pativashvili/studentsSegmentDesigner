@@ -2,10 +2,13 @@
   <mat-card>
     <mat-card-content class="dashboard-main-content">
       <mat-card class="left-side">
-        <app-shared-filters
-          (chosenDate)="getSelectedDate($event)">
+        <app-shared-date-filters
+          (onStartDate)="getStartDate($event)"
+          (onEndDate)="getEndDate($event)"
+          (onSubject)="getSubject($event)"
+        >
 
-        </app-shared-filters>
+        </app-shared-date-filters>
         <app-subjects-segmentation
           (selectedSubject)="getSelectedSubject($event)">
 

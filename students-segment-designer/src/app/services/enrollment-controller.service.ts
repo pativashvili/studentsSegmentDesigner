@@ -15,7 +15,7 @@ export class EnrollmentControllerService {
   constructor(private http: HttpClient) {
   }
 
-  fetchEndorsementsByLecturerId(lecturerId: number, DateFrom?: string, DateTo?: string, MinGrade?: number,  MaxGrade?: number): Observable<any> {
+  fetchEndorsementsByLecturerId(lecturerId: number, DateFrom?: string, DateTo?: string, MinGrade?: number,  MaxGrade?: number, CourseId?:number): Observable<any> {
     let url = environment.lecturerInfoApi + this.url + `?lecturerId=${lecturerId}`
     if (DateFrom){
       url = url + `&DateFrom=${DateFrom}`
@@ -28,6 +28,9 @@ export class EnrollmentControllerService {
     }
     if (MaxGrade){
       url = url + `&MaxGrade=${MaxGrade}`
+    }
+    if (CourseId){
+      url = url + `&CourseId=${CourseId}`
     }
     return this.http.get(url);
   }

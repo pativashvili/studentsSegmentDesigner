@@ -1,12 +1,12 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MatCardModule} from "@angular/material/card";
 import {ChosenSubjectChartComponent} from "../../components/chosen-subject-chart/chosen-subject-chart.component";
-import {ActivatedRoute, Params} from "@angular/router";
-import {CommonModule, NgIf} from "@angular/common";
+import {ActivatedRoute, Params, Router} from "@angular/router";
+import {CommonModule, DatePipe, NgIf} from "@angular/common";
 import {Store} from "@ngrx/store";
-import {getEnrollmentInfo, getFilteredByDateEnrollmentInfo} from "../../+stores/enrollment/selector";
+import {getFilteredByDateEnrollmentInfo} from "../../+stores/enrollment/selector";
 import {Subject, takeUntil} from "rxjs";
-import {filterEnrollmentByDate, loadEnrollmentById} from "../../+stores/enrollment/erollment.actions";
+import {filterEnrollmentByDate} from "../../+stores/enrollment/erollment.actions";
 import {LoadingStatesEnum} from "../../models/loading-states.enum";
 import {GenericLoadingComponent} from "../../shared/components/generic-loading/generic-loading.component";
 import {MatExpansionModule} from "@angular/material/expansion";
@@ -14,35 +14,40 @@ import {MatExpansionModule} from "@angular/material/expansion";
 @Component({
   selector: 'app-subjects',
   standalone: true,
-  imports: [MatCardModule, ChosenSubjectChartComponent, CommonModule, NgIf, GenericLoadingComponent, MatExpansionModule],
+  imports: [
+    MatCardModule,
+    ChosenSubjectChartComponent,
+    CommonModule,
+    NgIf,
+    GenericLoadingComponent,
+    MatExpansionModule
+  ],
   templateUrl: './subjects.component.html',
+  providers: [DatePipe],
   styleUrl: './subjects.component.scss'
 })
 export class SubjectsComponent implements OnInit, OnDestroy {
   public queryParams: Params;
   public chartDataArray: any[];
-  public chartData;
+  public courseId: number;
+  public dateRange: string;
   public loadingState: LoadingStatesEnum;
   private unsubscribe$: Subject<void> = new Subject();
   private startDate: string;
   private endDate: string;
 
-  constructor(private route: ActivatedRoute, private store$: Store) {
+  constructor(private route: ActivatedRoute, private store$: Store, private router: Router) {
   }
 
   ngOnInit() {
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams.subscribe((params) => {
       this.queryParams = params;
-      if (this.queryParams['startDate'] && this.queryParams['endDate']) {
-        this.startDate = this.queryParams['startDate'];
-        this.endDate = this.queryParams['endDate'];
-        this.fetchEnrollmentInfo();
-        this.listenEnrollmentsByDate();
-      } else {
-        this.store$.dispatch(loadEnrollmentById({minGrade: 0, maxGrade: 100}))
-        this.listenEnrollments()
-      }
-    });
+      this.startDate = this.queryParams['startDate'];
+      this.endDate = this.queryParams['endDate'];
+      this.courseId = this.queryParams['courseId']
+      this.fetchEnrollmentInfo();
+    })
+    this.listenEnrollments();
   }
 
   ngOnDestroy() {
@@ -50,36 +55,33 @@ export class SubjectsComponent implements OnInit, OnDestroy {
     this.unsubscribe$.complete();
   }
 
-  private listenEnrollments() {
-    this.store$.select(getEnrollmentInfo).pipe(
+  public navigateToStudents($event): void {
+    this.router.navigate(['/students'], {
+      queryParams: {
+        startDate: this.startDate,
+        endDate: this.endDate,
+        courseId: this.courseId,
+        grade: $event
+      }
+    }).then()
+  }
+
+  private listenEnrollments(): void {
+    this.store$.select(getFilteredByDateEnrollmentInfo).pipe(
       takeUntil(this.unsubscribe$),
-      // Check if data exists after dispatching action
     ).subscribe((data) => {
       this.loadingState = data.loadingState;
       this.chartDataArray = [];
       if (data.enrollmentInfo) {
-
         data.enrollmentInfo.courses.forEach((element) => {
           const students = element.enrollments;
-          this.chartDataArray.push({data: this.calculateGradeCounts(students), name: element.course});
+          this.chartDataArray.push(
+            {
+              name: element.course,
+              data: this.calculateGradeCounts(students),
+            }
+          );
         })
-      }
-    })
-  }
-
-  private listenEnrollmentsByDate() {
-    this.store$.select(getFilteredByDateEnrollmentInfo).pipe(
-      takeUntil(this.unsubscribe$),
-      // Check if data exists after dispatching action
-    ).subscribe((data) => {
-      this.loadingState = data.loadingState
-      if (data.enrollmentInfo) {
-        const course = data.enrollmentInfo.courses.find(el => el.course === this.queryParams['subject']);
-        if (course) {
-          const students = course.enrollments; // Assuming 'enrollments' holds student data
-          this.chartData = this.calculateGradeCounts(students);
-          console.log(this.chartData)
-        }
       }
     })
   }
@@ -101,7 +103,12 @@ export class SubjectsComponent implements OnInit, OnDestroy {
     }));
   }
 
-  private fetchEnrollmentInfo() {
-    this.store$.dispatch(filterEnrollmentByDate({startDate: this.startDate, endDate: this.endDate}))
+  private fetchEnrollmentInfo(): void {
+    this.store$.dispatch(filterEnrollmentByDate(
+      {
+        startDate: this.startDate,
+        endDate: this.endDate,
+        courseId: this.courseId
+      }))
   }
 }

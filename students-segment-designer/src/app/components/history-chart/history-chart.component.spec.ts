@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SharedFiltersComponent } from './shared-filters.component';
+import { HistoryChartComponent } from './history-chart.component';
 
-describe('SharedFiltersComponent', () => {
-  let component: SharedFiltersComponent;
-  let fixture: ComponentFixture<SharedFiltersComponent>;
+describe('HistoryChartComponent', () => {
+  let component: HistoryChartComponent;
+  let fixture: ComponentFixture<HistoryChartComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SharedFiltersComponent]
+      imports: [HistoryChartComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(SharedFiltersComponent);
+    fixture = TestBed.createComponent(HistoryChartComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,20 +1,26 @@
-import {ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {MatCardModule} from '@angular/material/card';
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {ProgressBarPipe} from "./pipe/progress-bar.pipe";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatIcon} from "@angular/material/icon";
+import {CommonModule, NgClass} from "@angular/common";
 
 @Component({
   selector: 'app-dashboard-header',
   standalone: true,
-  imports: [MatCardModule, MatProgressBarModule, ProgressBarPipe, MatProgressSpinnerModule, MatIcon],
+  imports: [MatCardModule, MatProgressBarModule, ProgressBarPipe, MatProgressSpinnerModule, MatIcon, NgClass, CommonModule],
   templateUrl: './dashboard-header.component.html',
   styleUrl: './dashboard-header.component.scss',
 })
 export class DashboardHeaderComponent implements OnInit {
   @Input() failedStudents: number;
   @Input() passedStudents: number;
+
+  @Input() public averageGrade: number;
+  @Input() public maxGrade: number;
+  @Input() public minGrade: number;
+  @Input() public courses: string[];
 
   constructor(private cdr: ChangeDetectorRef) {
   }
@@ -25,13 +31,4 @@ export class DashboardHeaderComponent implements OnInit {
   ngAfterViewInit() {
     this.cdr.detectChanges()
   }
-
-  // ngOnChanges(changes: SimpleChanges) {
-  //   if (changes['failedStudents']) {
-  //     this.failedStudents = changes['failedStudents'].currentValue
-  //   }
-  //   if (changes['passedStudents']) {
-  //     this.passedStudents = changes['passedStudents'].currentValue
-  //   }
-  // }
 }
