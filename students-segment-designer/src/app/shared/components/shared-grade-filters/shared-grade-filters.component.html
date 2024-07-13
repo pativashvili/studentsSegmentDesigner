@@ -1,0 +1,20 @@
+<!--<mat-form-field>-->
+<!--  <mat-label>აირჩიეთ ფილტრი</mat-label>-->
+<!--  <mat-select [formControl]="panelColor">-->
+<!--    <mat-option [value]="'red'">Red</mat-option>-->
+<!--    <mat-option [value]="'green'">Green</mat-option>-->
+<!--    <mat-option [value]="'blue'">Blue</mat-option>-->
+<!--  </mat-select>-->
+<!--</mat-form-field>-->
+<mat-card class="flex-container">
+  <div>მონიშნეთ ფილტრი:</div>
+  <mat-chip-listbox aria-label="შედეგები">
+    <div class="filters-wrapper">
+      <ng-container *ngFor="let filter of filtersList ">
+        <mat-chip-option (selectionChange)="getSelectedFilter(filter)"
+                         [selected]="filter.selected">{{filter.name}}
+        </mat-chip-option>
+      </ng-container>
+    </div>
+  </mat-chip-listbox>
+</mat-card>
