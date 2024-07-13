@@ -1,6 +1,11 @@
-import {AfterViewInit, ChangeDetectorRef, Component, Input} from '@angular/core';
-import {NgxEchartsModule} from "ngx-echarts";
-import {DatePipe} from "@angular/common";
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  Input,
+} from '@angular/core';
+import { NgxEchartsModule } from 'ngx-echarts';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-history-chart',
@@ -8,20 +13,20 @@ import {DatePipe} from "@angular/common";
   imports: [NgxEchartsModule],
   templateUrl: './history-chart.component.html',
   styleUrl: './history-chart.component.scss',
-  providers: [DatePipe]
+  providers: [DatePipe],
 })
 export class HistoryChartComponent implements AfterViewInit {
   public chartOptions;
   @Input() history: {
-    name: string,
-    data: { enrollmentDate: string, passedCount: number, failedCount: number }[]
-  }
+    name: string;
+    data: {
+      enrollmentDate: string;
+      passedCount: number;
+      failedCount: number;
+    }[];
+  };
 
-  constructor(
-    private cdk: ChangeDetectorRef,
-    private datePipe: DatePipe
-  ) {
-  }
+  constructor(private cdk: ChangeDetectorRef, private datePipe: DatePipe) {}
 
   ngAfterViewInit() {
     this.initialiseChart();
@@ -31,53 +36,54 @@ export class HistoryChartComponent implements AfterViewInit {
   private initialiseChart(): void {
     this.chartOptions = {
       title: {
-        text: this.history.name,
-        left: 'center'
+        text: this.history?.name,
+        left: 'center',
       },
       tooltip: {
         trigger: 'axis',
-        axisPointer: {type: 'shadow'}
+        axisPointer: { type: 'shadow' },
       },
       legend: {
         data: ['ჩაბარებული', 'ჩაჭრილი'],
-        left: 'left'
+        left: 'left',
       },
       grid: {
         left: '3%',
         right: '4%',
         bottom: '3%',
-        containLabel: true
+        containLabel: true,
       },
       xAxis: {
         type: 'category',
-        data: this.history.data.map(item => this.datePipe.transform(item.enrollmentDate))
+        data: this.history?.data?.map((item) =>
+          this.datePipe.transform(item?.enrollmentDate)
+        ),
       },
       yAxis: {
-        type: 'value'
+        type: 'value',
       },
       series: [
         {
           name: 'ჩაბარებული',
           type: 'bar',
-          data: this.history.data.map(item => item.passedCount),
+          data: this.history?.data.map((item) => item?.passedCount),
           itemStyle: {
-            color: 'green'
+            color: 'green',
           },
         },
         {
           name: 'ჩაჭრილი',
           type: 'bar',
-          data: this.history.data.map(item => item.failedCount),
+          data: this.history?.data.map((item) => item?.failedCount),
           itemStyle: {
-            color: 'red'
+            color: 'red',
           },
-        }
+        },
       ],
       animationDuration: 0,
       animationDurationUpdate: 3000,
       animationEasing: 'linear',
-      animationEasingUpdate: 'linear'
+      animationEasingUpdate: 'linear',
     };
   }
-
 }

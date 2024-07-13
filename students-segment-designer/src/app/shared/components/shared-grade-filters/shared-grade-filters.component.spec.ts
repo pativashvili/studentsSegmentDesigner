@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SharedGradeFiltersComponent } from './shared-grade-filters.component';
+import { appConfig } from '../../../app.config';
 
 describe('SharedGradeFiltersComponent', () => {
   let component: SharedGradeFiltersComponent;
@@ -8,9 +9,9 @@ describe('SharedGradeFiltersComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SharedGradeFiltersComponent]
-    })
-    .compileComponents();
+      imports: [SharedGradeFiltersComponent],
+      providers: [...appConfig.providers],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(SharedGradeFiltersComponent);
     component = fixture.componentInstance;
