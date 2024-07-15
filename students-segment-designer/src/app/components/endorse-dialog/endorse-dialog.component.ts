@@ -1,10 +1,16 @@
-import {Component} from '@angular/core';
-import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
-import {MatFormFieldModule} from "@angular/material/form-field";
-import {MatInputModule} from "@angular/material/input";
-import {MatDialogActions, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
-import {MatButtonModule} from "@angular/material/button";
-import {MatSnackBar} from "@angular/material/snack-bar";
+import { Component, Inject } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogActions,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { EndorseControlleer } from '../../services/endorse-controller.service';
 
 @Component({
   selector: 'app-endorse-dialog',
@@ -15,27 +21,34 @@ import {MatSnackBar} from "@angular/material/snack-bar";
     MatInputModule,
     MatDialogActions,
     MatButtonModule,
-    MatDialogModule
+    MatDialogModule,
   ],
   templateUrl: './endorse-dialog.component.html',
-  styleUrl: './endorse-dialog.component.scss'
+  styleUrl: './endorse-dialog.component.scss',
 })
 export class EndorseDialogComponent {
   public recommendationForm = this.fb.group({
-    recommendation: [null, [Validators.required]]
-  })
-  private readonly successText: string = 'რეკომენდაცია წარმატებით გაიგზავნა'
+    recommendation: [null, [Validators.required]],
+  });
+  private readonly successText: string = 'რეკომენდაცია წარმატებით გაიგზავნა';
 
   constructor(
     private fb: FormBuilder,
     private matSnackBar: MatSnackBar,
-    private matDialog: MatDialogRef<EndorseDialogComponent>
-  ) {
-  }
+    private matDialog: MatDialogRef<EndorseDialogComponent>,
+    private endorsementController: EndorseControlleer,
+    @Inject(MAT_DIALOG_DATA) public data: { studentId: number }
+  ) {}
 
   public sendRecommendation(): void {
-    this.matSnackBar.open(this.successText);
-    this.matDialog.close()
+    this.endorsementController
+      .endorse(
+        this.data.studentId,
+        this.recommendationForm.getRawValue().recommendation
+      )
+      .subscribe(() => {
+        this.matSnackBar.open(this.successText);
+        this.matDialog.close();
+      });
   }
-
 }

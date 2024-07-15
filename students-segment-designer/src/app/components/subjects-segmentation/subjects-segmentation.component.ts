@@ -1,20 +1,31 @@
-import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
-import {CommonModule} from "@angular/common";
-import {MatCardModule} from "@angular/material/card";
-import {Store} from "@ngrx/store";
-import {getFilteredByDateEnrollmentInfo} from "../../+stores/enrollment/selector";
-import {LoadingStatesEnum} from "../../models/loading-states.enum";
-import {GenericLoadingComponent} from "../../shared/components/generic-loading/generic-loading.component";
-import {NgxEchartsModule} from "ngx-echarts";
-import {Subject, takeUntil} from "rxjs";
-import {CoursesControllerService} from "../../services/courses-controller.service";
+import {
+  Component,
+  EventEmitter,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { Store } from '@ngrx/store';
+import { getFilteredByDateEnrollmentInfo } from '../../+stores/enrollment/selector';
+import { LoadingStatesEnum } from '../../models/loading-states.enum';
+import { GenericLoadingComponent } from '../../shared/components/generic-loading/generic-loading.component';
+import { NgxEchartsModule } from 'ngx-echarts';
+import { Subject, takeUntil } from 'rxjs';
+import { CoursesControllerService } from '../../services/courses-controller.service';
 
 @Component({
   selector: 'app-subjects-segmentation',
   standalone: true,
-  imports: [CommonModule, MatCardModule, GenericLoadingComponent, NgxEchartsModule],
+  imports: [
+    CommonModule,
+    MatCardModule,
+    GenericLoadingComponent,
+    NgxEchartsModule,
+  ],
   templateUrl: './subjects-segmentation.component.html',
-  styleUrl: './subjects-segmentation.component.scss'
+  styleUrl: './subjects-segmentation.component.scss',
 })
 export class SubjectsSegmentationComponent implements OnInit, OnDestroy {
   @Output() selectedSubject: EventEmitter<string> = new EventEmitter();
@@ -23,14 +34,16 @@ export class SubjectsSegmentationComponent implements OnInit, OnDestroy {
   public loadingState: LoadingStatesEnum;
   public echartsOptions;
   public courses: {
-    name: string,
-    value: number
+    name: string;
+    value: number;
   }[];
 
-  private unsubscribe$: Subject<void> = new Subject<void>()
+  private unsubscribe$: Subject<void> = new Subject<void>();
 
-  constructor(private store: Store, private coursesControllerService: CoursesControllerService) {
-  }
+  constructor(
+    private store: Store,
+    private coursesControllerService: CoursesControllerService
+  ) {}
 
   ngOnInit() {
     this.getCourses();
@@ -43,31 +56,37 @@ export class SubjectsSegmentationComponent implements OnInit, OnDestroy {
   }
 
   public getSelectedSegment(event): void {
-    const selectedSegment = this.loadedCourses?.find((el) => el.title === event.name)?.id
-    this.selectedSubject.emit(selectedSegment)
+    const selectedSegment = this.loadedCourses?.find(
+      (el) => el.title === event.name
+    )?.id;
+    this.selectedSubject.emit(selectedSegment);
   }
 
   private listenToEnrollmentsByDate(): void {
-    this.store.select(getFilteredByDateEnrollmentInfo).pipe(takeUntil(this.unsubscribe$)).subscribe((data) => {
-      this.courses = [];
-      this.loadingState = data.loadingState;
-      if (data.enrollmentInfo) {
-        data.enrollmentInfo.courses.forEach((el) => {
-          this.courses.push({
-            name: el.course,
-            value: el.enrollments.length
-          })
-        })
-        this.generateChart()
-      }
-    })
+    this.store
+      .select(getFilteredByDateEnrollmentInfo)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((data) => {
+        this.courses = [];
+        this.loadingState = data.loadingState;
+        if (data.enrollmentInfo) {
+          data.enrollmentInfo.courses.forEach((el) => {
+            this.courses.push({
+              name: el.course,
+              value: el.enrollments.length,
+            });
+          });
+          this.generateChart();
+        }
+      });
   }
 
   private getCourses(): void {
-    this.coursesControllerService.fetchCoursesByLecturerId(Number(localStorage.getItem('lecturer')))
+    this.coursesControllerService
+      .fetchCoursesByLecturerId(Number(localStorage.getItem('lecturer')))
       .subscribe((data) => {
         this.loadedCourses = data;
-      })
+      });
   }
 
   private generateChart(): void {
@@ -78,12 +97,13 @@ export class SubjectsSegmentationComponent implements OnInit, OnDestroy {
         top: 'center',
       },
       tooltip: {
-        trigger: 'item'
+        trigger: 'item',
       },
       legend: {
         orient: 'vertical',
         left: 'center',
         top: 'bottom',
+        bottom: '20px',
       },
       series: [
         {
@@ -95,17 +115,17 @@ export class SubjectsSegmentationComponent implements OnInit, OnDestroy {
           itemStyle: {
             borderRadius: 10,
             borderColor: '#fff',
-            borderWidth: 2
+            borderWidth: 2,
           },
           label: {
             show: false,
-            position: 'center'
+            position: 'center',
           },
           labelLine: {
-            show: false
+            show: false,
           },
-        }
-      ]
-    }
+        },
+      ],
+    };
   }
 }

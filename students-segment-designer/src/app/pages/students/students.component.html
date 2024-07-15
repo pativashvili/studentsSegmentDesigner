@@ -1,22 +1,26 @@
 <div>
+  <div class="header" *ngIf="startDate">
+    პერიოდი: {{ startDate | date }} - {{ endDate | date }}
+  </div>
   <app-shared-grade-filters
     (onFilterSelected)="filterChosenTable($event)"
   ></app-shared-grade-filters>
-  <app-generic-loading
-    *ngIf="loadingState !== 'LOADED'"
-    [state]="loadingState"
-  >
+  <app-generic-loading *ngIf="loadingState !== 'LOADED'" [state]="loadingState">
   </app-generic-loading>
   <ng-container *ngIf="loadingState === 'LOADED'">
     <mat-accordion class="custom-accordion">
-      <mat-expansion-panel [expanded]="i==0" *ngFor="let item of dataSources; let i = index">
+      <mat-expansion-panel
+        [expanded]="i == 0"
+        *ngFor="let item of dataSources; let i = index"
+      >
         <mat-expansion-panel-header>
-          {{item.name}}
+          {{ item.name }}
         </mat-expansion-panel-header>
         <mat-panel-description>
           <app-chose-students-table
             (selectedFilter)="filterChosenTable($event)"
-            [tableDataSource]="item?.['dataSource']">
+            [tableDataSource]="item?.['dataSource']"
+          >
           </app-chose-students-table>
         </mat-panel-description>
       </mat-expansion-panel>

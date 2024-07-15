@@ -1,15 +1,15 @@
-<app-generic-loading
-  *ngIf="loadingState !=='LOADED'"
-  [state]="loadingState"
->
+<app-generic-loading *ngIf="loadingState !== 'LOADED'" [state]="loadingState">
 </app-generic-loading>
 
 <ng-container *ngIf="loadingState === 'LOADED'">
+  <div class="header" *ngIf="startDate">
+    პერიოდი: {{ startDate | date }} - {{ endDate | date }}
+  </div>
   <div class="chosen-subject-wrapper">
     <mat-accordion>
       <mat-expansion-panel *ngFor="let chartData of chartDataArray">
         <mat-expansion-panel-header>
-          <mat-panel-title> {{chartData.name}} </mat-panel-title>
+          <mat-panel-title> {{ chartData.name }} </mat-panel-title>
         </mat-expansion-panel-header>
         <mat-panel-description class="flex-item">
           <app-chosen-subject-chart

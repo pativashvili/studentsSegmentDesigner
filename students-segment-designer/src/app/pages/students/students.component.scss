@@ -1,5 +1,4 @@
 .custom-accordion {
-
   mat-expansion-panel {
     margin: 1rem;
 
@@ -12,4 +11,12 @@
       width: max-content;
     }
   }
+}
+.header {
+  display: flex;
+  margin: 1rem;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  font-weight: 600;
 }
